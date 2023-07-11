@@ -44,8 +44,36 @@ def count_vowels():
     count = 0
     for char in text:
             if char in vowels:
+                
                 count += 1
     return f'There are {count} vowels in "{text}"'
+
+@app.route('/sort-names', methods=['POST'])
+def sort_names():
+    names = request.form['names']
+    names_list = names.split(',')
+    names_list.sort()
+    return ",".join(names_list)
+
+
+@app.route('/names', methods=['GET'])
+def get_names():
+    add_names = request.args['add']
+    add_names_list = add_names.split(',')
+    names = "Julia, Alice, Karim"
+    names_list = names.split(', ')
+
+    for name in add_names_list:
+        names_list.append(name)
+    names_list.sort()
+    return ', '.join(names_list)
+
+
+
+
+
+
+
 
 from example_routes import apply_example_routes
 apply_example_routes(app)

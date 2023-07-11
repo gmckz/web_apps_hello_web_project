@@ -43,3 +43,35 @@ def test_post_count_vowels_mercurial(web_client):
     response = web_client.post('/count_vowels', data={'text': 'mercurial'})
     assert response.status_code == 200
     assert response.data.decode('utf-8') == 'There are 4 vowels in "mercurial"'
+
+"""
+When: I make a POST request to /sort-names
+And: I send "Joe,Alice,Zoe,Julia,Kieran" as the body parameter text
+Then: I should get a 200 response with "Alice,Joe,Julia,Kieran,Zoe" in the message
+"""
+def test_post_sort_names(web_client):
+    response = web_client.post('/sort-names', data={'names': 'Joe,Alice,Zoe,Julia,Kieran'})
+    assert response.status_code == 200
+    assert response.data.decode('utf-8') == 'Alice,Joe,Julia,Kieran,Zoe'
+
+# """
+# When: I make a GET request to /names
+# And: I send "Eddie" as the query parameter
+# Then: I should get a 200 response with "Julia, Alice, Karim, Eddie" in the message
+# """
+
+# def test_get_names(web_client):
+#     response = web_client.get('/names?add=Eddie')
+#     assert response.status_code == 200
+#     assert response.data.decode('utf-8') == 'Julia, Alice, Karim, Eddie'
+
+"""
+When: I make a GET request to /names
+And: I send "Eddie,Leo" as the query parameter
+Then: I should get a 200 response with "Alice, Eddie, Julia, Karim, Leo" in the message
+"""
+
+def test_get_names_multiple_added(web_client):
+    response = web_client.get('/names?add=Eddie,Leo')
+    assert response.status_code == 200
+    assert response.data.decode('utf-8') == 'Alice, Eddie, Julia, Karim, Leo'
